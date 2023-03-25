@@ -120,7 +120,7 @@ CREATE TABLE note
 (
     Id_utilisateur INT,
     Id_skis        INT,
-    note           VARCHAR(5),
+    note           INT,
     PRIMARY KEY (Id_utilisateur, Id_skis),
     FOREIGN KEY (Id_utilisateur) REFERENCES utilisateur (id_utilisateur),
     FOREIGN KEY (Id_skis) REFERENCES skis (code_ski)

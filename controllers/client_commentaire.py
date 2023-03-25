@@ -36,11 +36,11 @@ def client_article_details():
     commentaire = mycursor.fetchall()
 
     sql = '''
-        SELECT COUNT(ligne_commande.quantite_ligne_commande) as nb_commandes_article, COUNT(ligne_commande.id_commande) as commandes_articles
-        FROM commande
-        INNER JOIN utilisateur ON utilisateur.id_utilisateur = commande.id_utilisateur 
-        INNER JOIN ligne_commande ON ligne_commande.id_commande = commande.id_commande
-        INNER JOIN skis ON ligne_commande.code_ski = skis.code_ski
+        SELECT COUNT(*) as nb_commandes_article
+        FROM skis
+        INNER JOIN ligne_commande ON skis.code_ski = ligne_commande.code_ski
+        INNER JOIN commande ON ligne_commande.id_commande = commande.id_commande
+        INNER JOIN utilisateur ON commande.Id_utilisateur = utilisateur.id_utilisateur
         WHERE skis.code_ski = %s AND commande.id_utilisateur = %s;
     '''
     mycursor.execute(sql, (code_ski, id_client,))
@@ -86,6 +86,7 @@ def client_article_details():
                            , commentaire=commentaire
                            , commandes_articles=commandes_articles
                            , note=note
+                           , note_user=note_user
                            , nb_commentaire=nb_commentaire
                            , nb_commentaires_user=nb_commentaires_user
                            )
@@ -154,7 +155,7 @@ def client_note_edit():
     id_ski_edit = request.form.get('code_ski', None)
     tuple_update = (note, id_client, id_ski_edit)
     print(tuple_update)
-    sql = '''UPDATE note SET note = %s AND note.Id_utlisateur = %s WHERE note.Id_skis = %s;  '''
+    sql = '''UPDATE note SET note = %s WHERE note.Id_utlisateur = %s AND note.Id_skis = %s;  '''
     mycursor.execute(sql, tuple_update)
     get_db().commit()
     return redirect('/client/article/details?code_skis=' + id_ski_edit)
@@ -167,7 +168,7 @@ def client_note_delete():
     id_article = request.form.get('code_ski', None)
     tuple_delete = (id_client, id_article)
     print(tuple_delete)
-    sql = '''DELETE FROM note WHERE skis.code_ski = %s; '''
+    sql = '''DELETE FROM note WHERE note.Id_utlisateur AND note.Id_skis = %s; '''
     mycursor.execute(sql, tuple_delete)
     get_db().commit()
-    return redirect('/client/article/details?id_article=' + id_article)
+    return redirect('/client/article/details?code_ski=' + id_article)

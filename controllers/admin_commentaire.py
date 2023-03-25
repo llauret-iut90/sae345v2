@@ -13,7 +13,10 @@ admin_commentaire = Blueprint('admin_commentaire', __name__,
 def admin_article_details():
     mycursor = get_db().cursor()
     code_ski =  request.args.get('code_ski', None)
-    sql = '''    requête admin_type_article_1    '''
+    sql = '''    SELECT * FROM commentaire
+                INNER JOIN skis ON skis.code_ski = commentaire.Id_skis
+                INNER JOIN utilisateur ON commentaire.Id_utilisateur = utilisateur.id_utilisateur
+                WHERE skis.code_ski = %s;'''
     commentaires = {}
     sql = '''   requête admin_type_article_1_bis   '''
     article = []
