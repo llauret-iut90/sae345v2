@@ -58,8 +58,8 @@ def admin_comment_add():
     commentaire = request.form.get('commentaire', None)
     sql = '''    INSERT INTO commentaire (Id_utilisateur, Id_skis, date_publication, commentaire, valider) 
     VALUES (%s, %s, NOW(), %s, 1) '''
-    tuple_insert = (id_utilisateur, code_ski, commentaire)
-    mycursor.execute(sql, tuple_insert)
+    tuple_answer = (id_utilisateur, code_ski, commentaire)
+    mycursor.execute(sql, tuple_answer)
     get_db().commit()
     return redirect('/admin/article/commentaires?code_ski=' + code_ski)
 
