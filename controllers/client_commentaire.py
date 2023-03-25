@@ -150,15 +150,15 @@ def client_note_add():
 @client_commentaire.route('/client/note/edit', methods=['POST'])
 def client_note_edit():
     mycursor = get_db().cursor()
-    id_client = session['id_user']
     note = request.form.get('note', None)
+    id_client = session['id_user']
     id_ski_edit = request.form.get('code_ski', None)
     tuple_update = (note, id_client, id_ski_edit)
     print(tuple_update)
-    sql = '''UPDATE note SET note = %s WHERE note.Id_utlisateur = %s AND note.Id_skis = %s;  '''
+    sql = '''UPDATE note SET note = %s WHERE note.Id_utilisateur = %s AND note.Id_skis = %s;  '''
     mycursor.execute(sql, tuple_update)
     get_db().commit()
-    return redirect('/client/article/details?code_skis=' + id_ski_edit)
+    return redirect('/client/article/details?code_ski=' + id_ski_edit)
 
 
 @client_commentaire.route('/client/note/delete', methods=['POST'])
@@ -168,7 +168,7 @@ def client_note_delete():
     id_article = request.form.get('code_ski', None)
     tuple_delete = (id_client, id_article)
     print(tuple_delete)
-    sql = '''DELETE FROM note WHERE note.Id_utlisateur AND note.Id_skis = %s; '''
+    sql = '''DELETE FROM note WHERE note.Id_utilisateur =%s AND note.Id_skis = %s; '''
     mycursor.execute(sql, tuple_delete)
     get_db().commit()
     return redirect('/client/article/details?code_ski=' + id_article)
