@@ -1,5 +1,3 @@
-note
-changer les code_ski et tout lo
-
 ADMIN
-faire
+corriger reponse
+afficher les nouveaux avis

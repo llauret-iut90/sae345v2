@@ -11,8 +11,8 @@
         <h3>répondre à un commentaire</h3>
             </div>
                  <form  action="/admin/article/commentaires/repondre"  style="display: inline-block;"  method="post" >
-                      <input type="hidden" name="id_article" value="{{ id_article }}">
-                      <input type="hidden" name="id_utilisateur" value="{{ id_utilisateur }}">
+                      <input type="hidden" name="code_ski" value="{{ code_ski }}">
+                      <input type="hidden" name="id_utilisateur" value="{{ Id_utilisateur }}">
                       <input type="hidden" name="date_publication" value="{{ date_publication }}">
                       <div class="col">
                        <label for="input_commentaire" class="form-label">Mettez un commentaire sur cet article : </label>
