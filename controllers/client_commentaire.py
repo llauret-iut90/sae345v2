@@ -47,7 +47,7 @@ def client_article_details():
     commandes_articles = mycursor.fetchone()
 
     sql = '''
-    SELECT (SUM(note.note)/COUNT(note.note)) AS moy_notes, COUNT(note.note) AS nb_notes
+    SELECT ROUND(SUM(note.note)/COUNT(note.note),2) AS moy_notes, COUNT(note.note) AS nb_notes
     FROM note 
     INNER JOIN skis ON skis.code_ski = note.Id_skis
     WHERE skis.code_ski = %s;

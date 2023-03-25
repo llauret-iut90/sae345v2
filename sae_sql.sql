@@ -232,6 +232,10 @@ SELECT *
 from commentaire;
 # INSERT INTO note(Id_utilisateur, note, Id_skis) VALUES (1,4,2);
 SELECT * from note;
+SELECT ROUND(SUM(note.note)/COUNT(note.note),2) AS moy_notes, COUNT(note.note) AS nb_notes
+    FROM note
+    INNER JOIN skis ON skis.code_ski = note.Id_skis
+    WHERE skis.code_ski = 1;
 # INSERT
 # INTO ligne_commande(code_ski, id_commande, prix, quantite_ligne_commande)
 # VALUES (1, 1, 500, 2);

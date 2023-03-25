@@ -56,11 +56,11 @@ def admin_comment_add():
     code_ski = request.form.get('code_ski', None)
     print('XXXXXXXXXXXXXXXXXXXX', code_ski)
     nom = session['login']
-    date_publication = request.form.get('date_publication', None)
+    # date_publication = request.form.get('date_publication', None)
     commentaire = request.form.get('commentaire', None)
     sql = '''    INSERT INTO commentaire (nom, Id_utilisateur, Id_skis, date_publication, commentaire, valider) 
     VALUES (%s, %s, %s, NOW(), %s, 1) '''
-    tuple_answer = (nom, id_utilisateur, code_ski, commentaire)
+    tuple_answer = (nom, id_utilisateur,code_ski, commentaire)
     mycursor.execute(sql, tuple_answer)
     get_db().commit()
     return redirect('/admin/article/commentaires?code_ski=' + code_ski)
