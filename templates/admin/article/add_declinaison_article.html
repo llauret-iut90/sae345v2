@@ -1,0 +1,39 @@
+{% extends 'admin/layout_admin.html' %}
+
+{% block title %}
+    <title>ajouter une declinaison</title>
+{% endblock %}
+
+{% block body %}
+    <h2>ajouter une déclinaison d'un skis</h2>
+    <div class="row mt-5">
+    {% if skis.image_skis is defined and skis.image_skis is not none %}
+        <img class="card-img-top rounded mx-4 d-block"  style="width:200px; height:200px; border: 1px solid black; padding: 25px;" id="output" src="{{ url_for('static', filename = 'images/')}}{{ skis.image_skis }}" alt="">
+    {% endif %}
+        <div class="w-25">
+            <form class="w-190" method="post" action="/admin/declinaison_article/add">
+                <input id="id_skis" type="hidden" name="id_skis" value="{{ skis.code_ski }}">
+                <input id="decl" type="hidden" name="decl" value="decl">
+                <input id="type_skis" type="hidden" name="type_skis" value="{{ type_skis }}">
+                <label for="stock">stock :
+                    <input name="stock" id="stock" type="number" class="form-control" required>
+                </label>
+                <label for="couleur">Couleur :
+                    <select name="couleur" required class="form-select">
+                        <option value="">Sélectionner une couleur</option>
+                        {% for couleur in couleurs %}
+                             <option value="{{ couleur.n_couleur }}"> {{ couleur.nom_couleur }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                    <label for="submit">
+                        <input name="submit" type="submit" value="Ajouter" class="btn btn-primary mt-2">
+                    </label>
+
+
+            </form>
+         <a href="/admin/article/edit?code_ski={{ skis.code_ski }}&amp;id_type_skis={{ type_skis }}"><button class="btn btn-secondary mt-2">annuler</button></a>
+        </div>
+    </div>
+{% endblock %}

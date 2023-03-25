@@ -1,0 +1,40 @@
+{% extends 'admin/layout_admin.html' %}
+
+{% block title %}
+    <title>afficher les types d'article</title>
+{% endblock %}
+
+{% block body %}
+<h3>Types d'article</h3>
+<a class="btn btn-outline-success" href="/admin/type-article/add">ajouter un type d'article</a>
+<br><br>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+           <th>Nom</th> <th>(id_type_article)</th><th>opération</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% if type_skis | length >= 1 %}
+        {% for ligne in type_skis %}
+           <tr>
+                  <td>{{ ligne.libelle_ski }}</td>
+                  <td>{{ ligne.id_type_skis }}</td>
+
+                  <td>
+                      <a class="btn btn-outline-danger" href="/admin/type-article/edit?libelle_ski={{ ligne.libelle_ski }}">editer</a>&nbsp;
+                      <a class="btn btn-outline-warning" href="/admin/type-article/delete?id_type_skis={{ ligne.id_type_skis }}">supprimer</a>
+                  </td>
+           </tr>
+        {% endfor %}
+    {% else %}
+            <tr>
+                  <td>
+                      pas de type d'article
+                  </td>
+           </tr>
+    {% endif %}
+    </tbody>
+</table>
+{% endblock %}

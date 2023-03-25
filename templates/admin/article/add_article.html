@@ -1,0 +1,43 @@
+{% extends 'admin/layout_admin.html' %}
+
+{% block title %}
+    <title>ajouter un article</title>
+{% endblock %}
+
+{% block body %}
+    <h2>ajouter un article</h2>
+    <div class="row mt-5">
+        <img class="card-img-top rounded mx-4 d-block"
+             style="width:200px; height:200px; border: 1px solid black; padding: 5px;" id="img_output"
+             src="{{ url_for('static', filename = 'images/') }}no_photo.jpeg" alt="">
+        <div class="w-25">
+            <form class="w-190" method="post" action="/admin/article/add" enctype="multipart/form-data">
+                <label for="libelle_skis">Nom :
+                    <input name="libelle_skis" type="text" value="" class="form-control" required>
+                </label>
+                <label for="prix_skis">Prix (€) :
+                    <input name="prix_skis" type="number" min="0.0" step="0.01" max="2147483647" value=""
+                           class="form-control" required>
+                </label>
+                <label for="image_skis"> Image :
+                    <input name="image_skis" type="file" onchange="loadFile(event)" class="form-control">
+                </label>
+
+                <label for="type_skis_id">Type de l'article :
+                    <select name="type_skis_id" required class="form-select">
+                        <option value="">Sélectionner un type d'article</option>
+                        {% for type in type_skis %}
+                            <option value="{{ type.id_type_skis }}">{{ type.libelle_ski }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label for="submit">
+                    <input name="submit" type="submit" value="Ajouter" class="btn btn-primary mt-2">
+                </label>
+            </form>
+            <a href="/admin/article/show">
+                <button class="btn btn-secondary mt-2">annuler</button>
+            </a>
+        </div>
+    </div>
+{% endblock %}

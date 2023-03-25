@@ -1,0 +1,114 @@
+{#
+article (dictionnaire)
+id_article, nom, type_article_id, prix, image
+    * option :
+        * stock ,
+        * nb_avis ,
+        * nb_declinaisons
+
+types_article : tableau de dictionnaires
+* tableau de "type_article"
+    * id_type_article, libelle
+#}
+
+{% extends 'admin/layout_admin.html' %}
+{% block title %}
+    <title>modifier un article</title>
+{% endblock %}
+
+{% block body %}
+    <h2>modifier un article</h2>
+        <div class="row mt-5">
+        {%  if skis.image_skis is not none %}
+            <img class="card-img-top rounded mx-4 d-block"  style="width:200px; height:200px; border: 1px solid black; padding: 25px;"   id="img_output" src="{{ url_for('static', filename = 'images/') }}{{ skis.image_skis}}"  alt="image {{ skis.libelle_skis }}" >
+        {% endif %}
+            <div class="w-25">
+                <form class="w-190" method="post" action="/admin/article/edit" enctype="multipart/form-data">
+                    <input type="hidden" value="{{ skis.code_ski }}" name="code_ski">
+                    <label for="libelle_skis">Nom :
+                        <input name="libelle_skis" type="text" value="{{ skis.libelle_skis }}" class="form-control">
+                    </label>
+                    <label for="prix_skis" > Prix (€) :
+                        <input name="prix_skis" type="number" min="0.0" step="0.01" value="{{ skis.prix_skis }}" class="form-control" >
+                    </label>
+                    <label for="image_skis">Image :                       {# à modifier #}
+                        <input name="image_skis"  onchange="loadFile(event)" type="file" class="form-control" value="{{ skis.image_skis }}">             {# à modifier #}
+                    </label>                                         {# à modifier #}
+{#                https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask#}
+
+                <label for="type_skis_id">Type de l'article :
+                    <select name="type_skis_id" class="form-select">
+                            {% for type in type_skis %}
+                                 <option value="{{ type.id_type_skis }}" {% if type.id_type_skis == skis.type_skis_id %} selected {% endif %}> {{ type.libelle_ski }}</option>
+                            {% endfor %}
+                        </select>
+                    </label><br>
+                        {% if decl is none %}
+                            <label for="stock">Stock total :
+                                <h2 class="form-control">{{ skis.total_stock }}</h2>
+                            </label>
+                        {% endif %}
+                    <br>
+                    <button class="btn btn-primary mt-2">
+                                Modifier
+                    </button>
+                    <a class="btn btn-secondary mt-2" href="/admin/article/show"  role="button">annuler</a>
+                </form>
+
+                <div class="container-fluid " style="width: 1000px;">
+
+                    <div style="display: flex; justify-content: space-between">
+                        <h3>déclinaison en fonction de la couleur (variante)</h3>
+                        {% if decl is none %}
+                            <a class="img-fluid" href="/admin/declinaison_article/add?id_skis={{ skis.code_ski }}&amp;id_type_skis={{ skis.type_skis_id }}">
+                            <button class="btn btn-primary">
+                        {% else %}
+                            <a class="img-fluid" href="/admin/declinaison_article/add?id_skis={{ skis.code_ski }}&amp;decl={{ decl }}&amp;id_type_skis={{ skis.type_skis_id }}">
+                            <button class="btn btn-primary">
+                        {% endif %}
+
+                                Ajouter une déclinaison (variante)
+                            </button>
+                        </a>
+                    </div>
+                    <table class="table table-hover table-responsive">
+
+                        <th style="width: 300px">couleur</th>
+                        <th style="width: 300px">stock</th>
+                        <th style="width: 300px">opérations</th>
+
+                        {% if declinaison | length == 0 %}
+                            <tr>
+                                <td>Aucun modèle</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% else %}
+                            {% for declinaison_article in declinaison %}
+                                <tr>
+                                    <td>
+                                        {{ declinaison_article.nom_couleur }}
+                                    </td>
+                                    <td>{{ declinaison_article.stock }}</td>
+                                    <td style="display: flex">
+                                        <a class="img-fluid" href="/admin/declinaison_article/delete?id_declinaison_skis={{ declinaison_article.id_declinaison_skis }}&amp;id_skis={{ declinaison_article.code_ski}}">
+                                            <button class="btn btn-primary mx-1">
+                                                supprimer
+                                            </button>
+                                        </a>
+                                        <a class="img-fluid" href="/admin/declinaison_article/edit?id_declinaison_skis={{ declinaison_article.id_declinaison_skis }}&amp;id_skis={{ declinaison_article.code_ski }}">
+                                            <button class="btn btn-primary mx-1">
+                                                editer
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </table>
+
+                </div>
+            </div>
+        </div>
+{% endblock %}

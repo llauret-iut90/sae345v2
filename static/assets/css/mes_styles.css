@@ -1,0 +1,37 @@
+h1 { color: green;}
+
+br , h2 { color: blue; }
+
+.modal-footer2 {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: distribute ;
+    justify-content: space-between;
+    padding: 0.75rem;
+    border-top: 1px solid #dee2e6;
+    border-bottom-right-radius: calc(0.3rem - 1px);
+    border-bottom-left-radius: calc(0.3rem - 1px);
+}
+
+.article-title{
+    color: #0b2e13;
+    height: 60px;
+    display: block;
+}
+
+
+@media(max-width: 1000px){
+    .w-190{
+        width: 190%;
+    }
+}
+
+@media(min-width: 1000px){
+    .w-190{
+        width: 90%;
+    }
+}

@@ -1,0 +1,90 @@
+<div class="m-2">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">SAE BDD 2023</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Espace commun</a>
+                        <div class="dropdown-menu">
+                             <a class="dropdown-item" href=""  > Articles</a>
+                            <a class="dropdown-item" href=""  > Types d'articles</a>
+                        <div class="dropdown-divider"></div>
+                        </div>
+                    </li>
+            </li>
+        </ul>
+    </div>
+
+    <div class="d-flex">
+            <!-- Authentication Links -->
+            {% if session['role']  %}
+                <span class="navbar-text">
+                    Bonjour {{ session['username'] }}
+                    {% if session['role']=='ROLE_admin' %} (role : Admin)
+                    {% elif session['role']=='ROLE_client' %} (role : Client) {% endif %}
+                    &nbsp
+            </span>
+               <a class="btn btn-outline-success" type="button" href="/logout"  >
+                    Se déconnecter (Logout)
+                </a>
+            {% else %}
+                <a class="btn btn-outline-success mx-1" type="button" href="/login">
+                    Se connecter (Login)
+                </a>
+                <a class="btn btn-outline-success  mx-2" type="button" href="/signup">
+                    Inscription  (Sign Up)
+                </a>
+                <a class="btn btn-outline-success" type="button" href="">
+                    Mot de passe oublié
+                </a>
+            {% endif %}
+
+    </div>
+  </div>
+</nav>
+</div>
+
+{#https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/bootstrap-dropdowns.php#}
+{##}
+{#<div class="m-4">#}
+{#    <nav class="navbar navbar-expand-sm navbar-light bg-light">#}
+{#        <div class="container-fluid">#}
+{#            <a href="#" class="navbar-brand">Brand</a>#}
+{#            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">#}
+{#                <span class="navbar-toggler-icon"></span>#}
+{#            </button>#}
+{#            <div id="navbarCollapse" class="collapse navbar-collapse">#}
+{#                <ul class="nav navbar-nav">#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link">Home</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link">Profile</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item dropdown">#}
+{#                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Messages</a>#}
+{#                        <div class="dropdown-menu">#}
+{#                            <a href="#" class="dropdown-item">Inbox</a>#}
+{#                            <a href="#" class="dropdown-item">Drafts</a>#}
+{#                            <a href="#" class="dropdown-item">Sent Items</a>#}
+{#                            <div class="dropdown-divider"></div>#}
+{#                            <a href="#"class="dropdown-item">Trash</a>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                </ul>#}
+{#                <ul class="nav navbar-nav ms-auto">#}
+{#                    <li class="nav-item dropdown">#}
+{#                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Admin</a>#}
+{#                        <div class="dropdown-menu dropdown-menu-end">#}
+{#                            <a href="#" class="dropdown-item">Reports</a>#}
+{#                            <a href="#" class="dropdown-item">Settings</a>#}
+{#                            <div class="dropdown-divider"></div>#}
+{#                            <a href="#" class="dropdown-item">Logout</a>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        </div>#}
+{#    </nav>#}
+{#</div>#}

@@ -1,0 +1,104 @@
+{#  lignes_panier  : tableau de dictionnaires
+        * dictionnaire : nom quantite prix ligne_id [stock]
+        *
+#}
+
+{% extends "client/layout_client.html" %}
+{% block body %}
+    <div class="container">
+        <div class="row align-self-right">
+            {% include('client/boutique/_panier.html') %}
+            <div class="col">
+                <h3>Les filtres</h3>
+                Skis dont le nom est composé par :<br>
+                {% include('client/boutique/_filtre.html') %}
+            </div>
+        </div>
+
+        <div class="bg-light p-3">
+            <h1>Les skis</h1>
+        </div>
+
+        <div class="row">
+            {% for ligne in skis %}
+                <div class="card col-4 mt-4 p-1">
+                    <div class="card-body border-dark rounded p-1">
+                        <a href="/client/article/details?code_ski={{ ligne.code_ski }}">
+                            <h3 class="card-title">
+                                <span style="color: #0b2e13">{{ ligne.libelle_skis }}</span><br>
+                                {{ ligne.prix_skis }}
+                                €
+                            </h3>
+                            {% if ligne.image_skis is not none %}
+                                <img class="card-img-top rounded mx-auto d-block" style="width:100px;height:100px"
+                                     src="{{ url_for('static', filename = 'images/') }}{{ ligne.image_skis }}"
+                                     alt="image  de {{ ligne.libelle_skis }}">
+                            {% else %}<img class="card-img-top rounded mx-auto d-block" style="width:100px;height:100px"
+                                           src="{{ url_for('static', filename='images/no_photo.jpeg') }}"
+                                           alt="image  de {{ ligne.libelle_skis }}">
+                            {% endif %}
+                            <hr>
+                        </a>
+                        <div class="row">
+                            {% if  ligne.stock is defined and ligne.stock != None %}
+                                {% if ligne.stock > 0 %}
+                                    <form action="/client/panier/add" method="post" class="col-5">
+                                        <input type="hidden" name="code_ski" value="{{ ligne.code_ski }}">
+                                        <input type="hidden" name="id_declinaison_article" value="{{ ligne.id_declinaison }}">
+                                        <div class="input-group">
+                                            <button class="btn  btn-success" id="button-addon1">
+                                                <i class="fas fa-shopping-cart">Ajouter</i>
+                                            </button>
+                                            <input type="number" id="input-{{ ligne.id_declinaison }}" step="1" min="1"
+                                                   max="{{ ligne.stock }}" class="form-control" value="1"
+                                                   name="quantite" aria-describedby="button-addon1">
+                                        </div>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                            <div class="col-2 align-content-end">
+                                {% if ligne.liste_envie is defined %}
+                                    {% if  ligne.liste_envie== 1 %}
+                                        <a href="/client/envie/add?id_ligne={{ ligne.id_declinaison }}"
+                                           style="text-decoration: none">💛</a>
+                                    {% else %}
+                                        <a href="/client/envie/add?id_ligne={{ ligne.id_declinaison }}"
+                                           style="text-decoration: none">🤍</a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        {% if ligne.stock is defined and ligne.stock != None %}
+                            {% if ligne.stock > 0 %}
+                                <small class="text-muted">Stock restant : {{ ligne.stock }}</small>
+                            {% else %}
+                                <small class="text-muted">ligne momentanément indisponible</small>
+                            {% endif %}
+                            {% if ligne.nb_declinaison is defined and ligne.nb_declinaison != None %}
+                                ({{ ligne.nb_declinaison }} d.)
+                            {% endif %}
+                            <br>
+                        {% endif %}
+                        {% if ligne.nb_notes is defined %}
+                            {% if ligne.nb_notes > 0 %}
+                                <a href="/client/ligne/details?id_ligne={{ ligne.id_ligne }}">
+                                    <span style="color: #3A7734"> note : {{ "{:,.1f}".format(ligne.moy_notes) }}({{ ligne.nb_notes }})</span>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                        {% if ligne.nb_avis is defined %}
+                            {% if ligne.nb_avis > 0 %}
+                                <a href="/client/ligne/details?id_ligne={{ ligne.id_ligne }}">
+                                    <span style="color: #3A7734">({{ ligne.nb_avis }} avis)</span>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{#    {{ skis | pprint }}#}
+{% endblock %}

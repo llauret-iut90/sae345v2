@@ -1,0 +1,38 @@
+{% extends 'admin/layout_admin.html' %}
+{% block title %}
+    <title>modifier un exemplaire</title>
+{% endblock %}
+
+{% block body %}
+    <h2>modifier la déclinaison d'un article </h2>
+        <div class="row mt-5">
+            article : <strong>{{ declinaison_article.nom }}</strong><br>
+            {% if declinaison_article.image_skis is defined and declinaison_article.image_skis is not none %}
+            <img class="card-img-top rounded mx-4 d-block"  style="width:200px; height:200px; border: 1px solid black; padding: 25px;"  src="{{ url_for('static', filename = 'images/')}}{{ declinaison_article.image_skis}}"  alt="image  de {{ declinaison_article["nom"] }}" >
+            {% else %}
+            <i class="card-img-top rounded mx-4 d-block">pas de photo</i>{#{{ declinaison_article|pprint }}#}
+            {% endif %}
+
+            <div class="w-25">
+                <form class="w-190" method="post" action="/admin/declinaison_article/edit" enctype="multipart/form-data">
+                    <input type="hidden" value="{{ declinaison_article.id_declinaison }}" name="id_declinaison_skis">
+                    <input type="hidden" value="{{ declinaison_article.code_ski }}" name="id_skis">
+                    <label for="stock">Stock :
+                        <input name="stock" type="number" min="0.0" step="0.01" value="{{ declinaison_article.stock }}" class="form-control" >
+                    </label>
+                    <label for="id_couleur"> couleur :
+                        <select name="id_couleur" class="form-select">
+                            {% for couleur in couleurs %}
+                                 <option value="{{ couleur.n_couleur }}" {% if couleur.n_couleur == declinaison_article.n_couleur %} selected {% endif %}> {{ couleur.nom_couleur }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <br>
+                <label for="submit">
+                    <input name="submit" type="submit" value="Modifier" class="btn btn-primary mt-2">
+                </label>
+                </form>
+                <a href="/admin/article/edit?code_ski={{ declinaison_article.code_ski }}"><button class="btn btn-secondary  mt-4">annuler</button></a>
+            </div>
+        </div>
+{% endblock %}
