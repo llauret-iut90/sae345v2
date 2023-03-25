@@ -30,7 +30,7 @@ def client_article_details():
     FROM commentaire
     INNER JOIN skis ON skis.code_ski = commentaire.Id_skis
     INNER JOIN utilisateur ON commentaire.Id_utilisateur = utilisateur.id_utilisateur
-    WHERE skis.code_ski = %s;
+    WHERE skis.code_ski = %s AND commentaire.valider = 1;
     '''
     mycursor.execute(sql, (code_ski,))
     commentaire = mycursor.fetchall()
