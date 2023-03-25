@@ -54,6 +54,7 @@ def admin_comment_add():
     mycursor = get_db().cursor()
     id_utilisateur = session['id_user']  # 1 admin
     code_ski = request.form.get('code_ski', None)
+    print('XXXXXXXXXXXXXXXXXXXX', code_ski)
     date_publication = request.form.get('date_publication', None)
     commentaire = request.form.get('commentaire', None)
     sql = '''    INSERT INTO commentaire (Id_utilisateur, Id_skis, date_publication, commentaire, valider) 

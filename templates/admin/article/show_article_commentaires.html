@@ -42,14 +42,14 @@
                         </td>
                         <td>
                                   <form  action="/admin/article/commentaires/delete"  style="display: inline-block;"  method="post" >
-                                      <input type="hidden" name="code_ski" value="{{ skis.code_skis }}">
+                                      <input type="hidden" name="code_ski" value="{{ commentaire.Id_skis }}">
                                       <input type="hidden" name="id_utilisateur" value="{{ commentaire.Id_utilisateur }}">
                                       <input type="hidden" name="date_publication" value="{{ commentaire.date_publication }}">
                                       <button class="btn btn-primary" > supprimer </button>
                                   </form>
                             {% if commentaire.utilisateur_id != session['id_user'] %}
                                   <form  action="/admin/article/commentaires/repondre"  style="display: inline-block;"  method="GET" >
-                                      <input type="hidden" name="code_ski" value="{{ skis.code_skis }}">
+                                      <input type="hidden" name="code_ski" value="{{ commentaire.Id_skis }}">
                                       <input type="hidden" name="id_utilisateur" value="{{ commentaire.Id_utilisateur }}">
                                       <input type="hidden" name="date_publication" value="{{ commentaire.date_publication }}">
                                       <button class="btn btn-primary" > répondre </button>
