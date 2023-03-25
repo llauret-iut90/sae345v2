@@ -33,10 +33,10 @@
         <div class="row">
 
             <div class="col-12">
-                {% if skis.moyenne_notes is not defined or  skis.nb_notes is not defined or  skis.moyenne_notes == None %}
+                {% if note.moy_notes is not defined or  note.nb_notes is not defined or  note.moy_notes == None %}
                     <strong>Pas de Note</strong>
                 {% else %}
-                    <strong>Note moyenne de cet article : {{ skis.moy_notes }}</strong>&nbsp;({{ skis.nb_notes }}
+                    <strong>Note moyenne de cet article : {{ note.moy_notes }}</strong>&nbsp;({{ note.nb_notes }}
                     note(s))
                 {% endif %}
             </div>
@@ -52,7 +52,7 @@
                             </div>
                             <div class="col-md-1">
                                 <input type="number" name="note" id="input_note" step="0.1" min="0" max="5"
-                                       class="form-control col-md-2" value="{{ note }}">
+                                       class="form-control col-md-2" value="{{ note.note }}">
                             </div>
                             <div class="col-md-2">
                                 <button class="btn btn-primary"> Modifier votre note</button>
@@ -91,15 +91,15 @@
 
         <div class="row" style="background-color: #faf1d7">
             <div class="col-12">
-                {% if nb_commentaire.nb_commentaires_total is not defined or nb_commentaire.nb_commentaires_utilisateur is not defined %}
+                {% if nb_commentaire.nb_commentaires_total is not defined or nb_commentaires_user.nb_commentaires_user is not defined %}
                     <strong>NB comment not defined</strong>
                 {% else %}
-                    <strong>Nombre de commentaire(s) : {{ nb_commentaire.nb_commentaires_utilisateur }} / 5 </strong><br>
+                    <strong>Nombre de commentaire(s) : {{ nb_commentaires_user.nb_commentaires_user }} / 5 </strong><br>
                     <strong>Nombre de commentaire(s) total : {{ nb_commentaire.nb_commentaires_total }}</strong>
                 {% endif %}
             </div>
             {% if commandes_articles.nb_commandes_article is defined and commandes_articles.nb_commandes_article > 0 and
-            ((nb_commentaire.nb_commentaires_utilisateur is defined and nb_commentaire.nb_commentaires_utilisateur <5) or nb_commentaire.nb_commentaires_utilisateur is not defined) %}
+            ((nb_commentaires_user.nb_commentaires_user is defined and nb_commentaires_user.nb_commentaires_user <5) or nb_commentaires_user.nb_commentaires_user is not defined) %}
                 <form action="/client/commentaire/add" method="post">
                     <div class="col">
                         <label for="input_commentaire" class="form-label">Mettez un commentaire sur cet article

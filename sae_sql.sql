@@ -120,7 +120,7 @@ CREATE TABLE note
 (
     Id_utilisateur INT,
     Id_skis        INT,
-    note           INT(5),
+    note           VARCHAR(5),
     PRIMARY KEY (Id_utilisateur, Id_skis),
     FOREIGN KEY (Id_utilisateur) REFERENCES utilisateur (id_utilisateur),
     FOREIGN KEY (Id_skis) REFERENCES skis (code_ski)
@@ -230,7 +230,8 @@ VALUES (23, 1, 1),
 
 SELECT *
 from commentaire;
-
+# INSERT INTO note(Id_utilisateur, note, Id_skis) VALUES (1,4,2);
+SELECT * from note;
 # INSERT
 # INTO ligne_commande(code_ski, id_commande, prix, quantite_ligne_commande)
 # VALUES (1, 1, 500, 2);

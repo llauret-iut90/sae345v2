@@ -24,7 +24,7 @@ def client_article_details():
           '''
     mycursor.execute(sql, (code_ski,))
     skis = mycursor.fetchone()
-
+#AND commentaire.valider = 1
     sql = '''
     SELECT commentaire.Id_utilisateur ,commentaire.commentaire, commentaire.nom, commentaire.date_publication
     FROM commentaire
@@ -56,8 +56,13 @@ def client_article_details():
     note = mycursor.fetchone()
     print('note', note)
 
+    sql = "SELECT note FROM note WHERE Id_skis = %s AND Id_utilisateur = %s;"
+    mycursor.execute(sql, (code_ski, id_client,))
+    note_user = mycursor.fetchone()
+    print('note_user', note_user)
+
     sql = '''
-    SELECT COUNT(commentaire.commentaire) AS nb_commentaires_utilisateur, COUNT(DISTINCT commentaire.Id_utilisateur) AS nb_commentaires_total
+    SELECT COUNT(commentaire.commentaire) AS nb_commentaires_total
     FROM commentaire
     INNER JOIN skis ON skis.code_ski = commentaire.Id_skis
     WHERE skis.code_ski = %s
@@ -66,12 +71,23 @@ def client_article_details():
     mycursor.execute(sql, (code_ski,))
     nb_commentaire = mycursor.fetchone()
 
+    sql = '''
+    SELECT COUNT(commentaire.commentaire) AS nb_commentaires_user
+    FROM commentaire
+    INNER JOIN skis ON skis.code_ski = commentaire.Id_skis
+    WHERE commentaire.Id_utilisateur = %s AND skis.code_ski = %s
+    ORDER BY commentaire.commentaire DESC;
+    '''
+    mycursor.execute(sql, (id_client, code_ski,))
+    nb_commentaires_user = mycursor.fetchone()
+
     return render_template('client/article_info/article_details.html'
                            , skis=skis
                            , commentaire=commentaire
                            , commandes_articles=commandes_articles
                            , note=note
                            , nb_commentaire=nb_commentaire
+                           , nb_commentaires_user=nb_commentaires_user
                            )
 
 
@@ -105,31 +121,29 @@ def client_comment_add():
 @client_commentaire.route('/client/commentaire/delete', methods=['POST'])
 def client_comment_delete():
     mycursor = get_db().cursor()
-    Id_skis = request.form.get('Id_skis', None)
+    id_skis_com = request.form.get('Id_skis', None)
     id_client = session['id_user']
     date_publication = request.form.get('date_publication', None)
     sql = '''DELETE FROM commentaire 
              WHERE commentaire.Id_skis = %s 
              AND commentaire.Id_utilisateur = %s AND commentaire.date_publication = %s;'''
-    tuple_delete = (Id_skis, id_client, date_publication)
+    tuple_delete = (id_skis_com, id_client, date_publication)
     mycursor.execute(sql, tuple_delete)
     get_db().commit()
-    return redirect('/client/article/details?code_ski=' + Id_skis)
-
-
+    return redirect('/client/article/details?code_ski=' + id_skis_com)
 
 @client_commentaire.route('/client/note/add', methods=['POST'])
 def client_note_add():
     mycursor = get_db().cursor()
     id_client = session['id_user']
     note = request.form.get('note', None)
-    id_article = request.form.get('code_ski', None)
-    tuple_insert = (note, id_client, id_article)
+    id_skis_note = request.form.get('code_ski', None)
+    tuple_insert = (note, id_client, id_skis_note)
     print(tuple_insert)
-    sql = '''INSERT INTO note(note) VALUES (%s) WHERE skis.code_ski = %s;'''
+    sql = '''INSERT INTO note(note, Id_utilisateur, Id_skis) VALUES (%s,%s,%s);'''
     mycursor.execute(sql, tuple_insert)
     get_db().commit()
-    return redirect('/client/article/details?id_article=' + id_article)
+    return redirect('/client/article/details?code_ski=' + id_skis_note)
 
 
 @client_commentaire.route('/client/note/edit', methods=['POST'])
@@ -137,13 +151,13 @@ def client_note_edit():
     mycursor = get_db().cursor()
     id_client = session['id_user']
     note = request.form.get('note', None)
-    id_article = request.form.get('code_ski', None)
-    tuple_update = (note, id_client, id_article)
+    id_ski_edit = request.form.get('code_ski', None)
+    tuple_update = (note, id_client, id_ski_edit)
     print(tuple_update)
-    sql = '''UPDATE note SET note = note+%s WHERE skis.code_ski = %s;  '''
+    sql = '''UPDATE note SET note = %s AND note.Id_utlisateur = %s WHERE note.Id_skis = %s;  '''
     mycursor.execute(sql, tuple_update)
     get_db().commit()
-    return redirect('/client/article/details?id_article=' + id_article)
+    return redirect('/client/article/details?code_skis=' + id_ski_edit)
 
 
 @client_commentaire.route('/client/note/delete', methods=['POST'])
