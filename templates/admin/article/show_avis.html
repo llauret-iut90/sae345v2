@@ -5,14 +5,14 @@
 <div class="container">
     <div class="text-center">
          <h2 class="card-title">
-             <span style="color: #0b2e13">{{ article.libelle }}</span> &nbsp;{{ article.prix }} €
+             <span style="color: #0b2e13">{{ skis.libelle_skis }}</span> &nbsp;{{ skis.prix }} €
          </h2>
 
         <div class="card-body">
-        <h4>{{ article.description }}</h4>
-        {%  if article.image is not none %}
-            <img class="card-img-top rounded mx-auto d-block"  style="width:100px;height:100px"  src="{{ url_for('static', filename = 'images/' + article['image']) }}"  alt="image  de {{ article.nom }}" >
-        {% else %} <img class="card-img-top rounded mx-auto d-block"   style="width:100px;height:100px"   src="{{ url_for('static', filename='images/no_photo.jpeg')}}"  alt="image  de {{ article.nom }}" >
+        <h4>{{ skis.description }}</h4>
+        {%  if skis.image is not none %}
+            <img class="card-img-top rounded mx-auto d-block"  style="width:100px;height:100px"  src="{{ url_for('static', filename = 'images/' + article['image']) }}"  alt="image  de {{ skis.libelle }}" >
+        {% else %} <img class="card-img-top rounded mx-auto d-block"   style="width:100px;height:100px"   src="{{ url_for('static', filename='images/no_photo.jpeg')}}"  alt="image  de {{ skis.libelle }}" >
         {% endif %}
 
         </div>
@@ -42,8 +42,8 @@
                         {% endif %}
                     ;"
                     >
-                        <td>{{ commentaire.user_id }}</td>
-                        <td>{{ commentaire.texte }}</td>
+                        <td>{{ commentaire.Id_utilisateur }}</td>
+                        <td>{{ commentaire.commentaire }}</td>
                         <td>{{ commentaire.note }}
                         {{ commentaire.__dict__ }}
                         </td>

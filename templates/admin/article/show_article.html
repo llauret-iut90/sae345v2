@@ -61,7 +61,7 @@ articles (tableau de dictionnaires)
                     <td>
                         {% if ligne.nb_commentaires_nouveaux is defined %}
                             {% if ligne.nb_commentaires_nouveaux > 0 %}
-                                <a href="/admin/article/commentaires?id_article={{ ligne.id_article }}"><strong
+                                <a href="/admin/article/commentaires?code_ski={{ ligne.code_ski }}"><strong
                                         style="color: red">{{ ligne.nb_commentaires_nouveaux }} ⚠️ </strong></a>
                             {% else %}
                                 <strong class="text-muted"></strong>
@@ -96,7 +96,7 @@ articles (tableau de dictionnaires)
                         <a class="btn btn-outline-warning"
                            href="/admin/article/edit?code_ski={{ ligne.code_ski }}&amp;id_type_skis={{ ligne.type_skis_id }}">editer</a>
                         <a class="btn btn-outline-warning"
-                           href="/admin/article/commentaires?id_article={{ ligne.code_ski }}">commentaires</a>
+                           href="/admin/article/commentaires?code_ski={{ ligne.code_ski }}">commentaires</a>
                     </td>
                 </tr>
             {% endfor %}

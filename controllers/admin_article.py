@@ -18,15 +18,26 @@ admin_article = Blueprint('admin_article', __name__,
 def show_article():
     mycursor = get_db().cursor()
 
-    sql = "SELECT sk.libelle_skis,sk.code_ski,sk.type_skis_id,tp.libelle_ski,sk.prix_skis,SUM(dl.stock) AS stock,COUNT(dl.id_declinaison) AS nb_declinaisons,sk.image_skis FROM declinaison dl " \
-          "INNER JOIN skis sk ON dl.code_ski=sk.code_ski INNER JOIN type_skis tp ON sk.type_skis_id=tp.id_type_skis GROUP BY sk.code_ski;"
+    sql = "SELECT skis.libelle_skis,skis.code_ski,skis.type_skis_id,type_skis.libelle_ski," \
+          "skis.prix_skis,SUM(declinaison.stock) AS stock," \
+          "COUNT(declinaison.id_declinaison) AS nb_declinaisons," \
+          "skis.image_skis," \
+          "(SELECT COUNT(*) FROM commentaire " \
+          "WHERE Id_skis = skis.code_ski AND valider = 0) AS nb_commentaires_nouveaux" \
+          " FROM declinaison " \
+          "INNER JOIN skis ON declinaison.code_ski=skis.code_ski " \
+          "INNER JOIN type_skis ON skis.type_skis_id=type_skis.id_type_skis " \
+          "GROUP BY skis.code_ski;"
     mycursor.execute(sql)
     skis = mycursor.fetchall()
     sql = ''' 
-SELECT sk.libelle_skis,sk.code_ski,sk.type_skis_id,tp.libelle_ski,sk.prix_skis,sk.image_skis
-FROM skis sk
-INNER JOIN type_skis tp ON sk.type_skis_id=tp.id_type_skis
-WHERE sk.code_ski NOT IN (
+SELECT skis.libelle_skis,skis.code_ski,
+skis.type_skis_id,type_skis.libelle_ski,skis.prix_skis,skis.image_skis,
+(SELECT COUNT(*) FROM commentaire 
+WHERE Id_skis = skis.code_ski AND valider = 0) AS nb_commentaires_nouveaux
+FROM skis
+INNER JOIN type_skis ON skis.type_skis_id=type_skis.id_type_skis
+WHERE skis.code_ski NOT IN (
 SELECT code_ski
 FROM declinaison);
 '''
@@ -156,10 +167,20 @@ def valid_edit_article():
 @admin_article.route('/admin/article/avis/<int:id>', methods=['GET'])
 def admin_avis(id):
     mycursor = get_db().cursor()
-    article=[]
-    commentaires = {}
+    sql = ''' SELECT *, type_skis.libelle_skis, couleur.nom_couleur 
+    FROM skis
+    INNER JOIN type_skis ON type_skis.id_type_skis=skis.type_skis_id
+    WHERE skis.code_ski=%s'''
+    mycursor.execute(sql, (id,))
+    skis = mycursor.fetchone()
+
+    sql = '''
+    SELECT * FROM avis WHERE code_ski=%s;
+    '''
+    mycursor.execute(sql, (id,))
+    commentaires = mycursor.fetchall()
     return render_template('admin/article/show_avis.html'
-                           , article=article
+                           , skis=skis
                            , commentaires=commentaires
                            )
 

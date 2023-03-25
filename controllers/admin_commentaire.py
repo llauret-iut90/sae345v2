@@ -22,10 +22,10 @@ def admin_article_details():
     commentaires = mycursor.fetchall()
     sql = '''   SELECT * FROM skis WHERE code_ski = {}'''.format(code_ski)
     mycursor.execute(sql)
-    article = mycursor.fetchone()
+    skis = mycursor.fetchone()
     return render_template('admin/article/show_article_commentaires.html'
                            , commentaires=commentaires
-                           , article=article
+                           , skis=skis
                            )
 
 
