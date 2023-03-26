@@ -227,15 +227,44 @@ VALUES (23, 1, 1),
        (12, 4, 6),
        (15, 1, 6),
        (14, 3, 1);
+ALTER TABLE commentaire
+ALTER COLUMN valider SET DEFAULT 0;
+# SELECT *
+# from commentaire;
+# # INSERT INTO note(Id_utilisateur, note, Id_skis) VALUES (1,4,2);
+# SELECT * from note;
+# SELECT ROUND(SUM(note.note)/COUNT(note.note),2) AS moy_notes, COUNT(note.note) AS nb_notes
+#     FROM note
+#     INNER JOIN skis ON skis.code_ski = note.Id_skis
+#     WHERE skis.code_ski = 1;
+#
+# SELECT skis.libelle_skis,skis.code_ski,skis.type_skis_id,type_skis.libelle_ski,
+#           skis.prix_skis,SUM(declinaison.stock) AS stock,
+#           COUNT(declinaison.id_declinaison) AS nb_declinaisons,
+#           skis.image_skis,
+#           (SELECT COUNT(commentaire.commentaire) FROM commentaire
+#           WHERE Id_skis = skis.code_ski AND valider = 1) AS nb_commentaires_nouveaux
+#            FROM declinaison
+#           INNER JOIN skis ON declinaison.code_ski=skis.code_ski
+#           INNER JOIN type_skis ON skis.type_skis_id=type_skis.id_type_skis
+#           LEFT JOIN commentaire ON skis.code_ski = commentaire.Id_skis AND commentaire.valider = 0
+#           GROUP BY skis.code_ski;
+#
+# SELECT skis.libelle_skis,
+#        skis.code_ski,
+#        skis.type_skis_id,
+#        type_skis.libelle_ski,
+#        skis.prix_skis,
+#        SUM(declinaison.stock) AS stock,
+#        COUNT(declinaison.id_declinaison) AS nb_declinaisons,
+#        skis.image_skis,
+#        SUM(CASE WHEN commentaire.valider = 0 THEN 1 ELSE 0 END) AS nb_commentaires_nouveaux
+# FROM declinaison
+# INNER JOIN skis ON declinaison.code_ski=skis.code_ski
+# INNER JOIN type_skis ON skis.type_skis_id=type_skis.id_type_skis
+# LEFT JOIN commentaire ON skis.code_ski = commentaire.Id_skis
+# GROUP BY skis.code_ski;
 
-SELECT *
-from commentaire;
-# INSERT INTO note(Id_utilisateur, note, Id_skis) VALUES (1,4,2);
-SELECT * from note;
-SELECT ROUND(SUM(note.note)/COUNT(note.note),2) AS moy_notes, COUNT(note.note) AS nb_notes
-    FROM note
-    INNER JOIN skis ON skis.code_ski = note.Id_skis
-    WHERE skis.code_ski = 1;
 # INSERT
 # INTO ligne_commande(code_ski, id_commande, prix, quantite_ligne_commande)
 # VALUES (1, 1, 500, 2);

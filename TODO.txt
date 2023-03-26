@@ -1,3 +1,2 @@
 ADMIN
-corriger reponse
 afficher les nouveaux avis
