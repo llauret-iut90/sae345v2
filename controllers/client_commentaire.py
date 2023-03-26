@@ -24,7 +24,7 @@ def client_article_details():
           '''
     mycursor.execute(sql, (code_ski,))
     skis = mycursor.fetchone()
-#AND commentaire.valider = 1
+#AND commentaire.valider = 1 enlever si on veut afficher les commentaires non validés
     sql = '''
     SELECT commentaire.Id_utilisateur ,commentaire.commentaire, commentaire.nom, commentaire.date_publication
     FROM commentaire
