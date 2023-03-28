@@ -1,2 +1,0 @@
-ADMIN
-afficher les nouveaux avis
