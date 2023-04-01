@@ -1,6 +1,3 @@
-# SET FOREIGN_KEY_CHECKS = 0;
-# SET GLOBAL sql_mode = (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
-
 DROP TABLE IF EXISTS note;
 DROP TABLE IF EXISTS commentaire;
 DROP TABLE IF EXISTS ligne_panier;

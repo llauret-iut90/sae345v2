@@ -8,7 +8,7 @@ def get_db():
         #
         db = g._database = pymysql.connect(
             host="localhost",
-            # host="serveurmysql",
+            # host="localhost",
             user="light@localhost",
             password="1234",
             database="BDD_llauret_sae",

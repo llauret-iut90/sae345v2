@@ -3,6 +3,6 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/controllers/client_commentaire.py" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/controllers/client_panier.py" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/sae_sql.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/sql_projet.sql" dialect="MySQL" />
   </component>
 </project>
